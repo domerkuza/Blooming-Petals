@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Blooming Petals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary-pink: #ff69b4;
+            --light-pink: #ffd1dc;
+            --primary-purple: #9370db;
+            --light-purple: #e6e6fa;
+        }
+
+        body {
+            background-color: var(--light-purple);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-pink);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--light-purple);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .products-title {
+            color: var(--primary-purple);
+            font-size: 2rem;
+        }
+
+        .sort-filter {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        select {
+            padding: 0.5rem;
+            border: 2px solid var(--primary-pink);
+            border-radius: 5px;
+            background-color: white;
+            color: var(--primary-purple);
+            cursor: pointer;
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .filters {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-title {
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .price-range {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .price-input {
+            padding: 0.5rem;
+            border: 1px solid var(--primary-pink);
+            border-radius: 5px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-name {
+            color: var(--primary-purple);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            color: var(--primary-pink);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary-purple);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--primary-pink);
+        }
+
+        .badge {
+            background-color: var(--primary-pink);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        @media (max-width: 968px) {
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                position: sticky;
+                top: 90px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .products-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sort-filter {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Blooming Petals</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="about.html">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="products-header">
+            <h1 class="products-title">Our Flowers</h1>
+            <div class="sort-filter">
+                <select name="sort" id="sort">
+                    <option value="featured">Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name">Name: A to Z</option>
+                </select>
+                <select name="items" id="items">
+                    <option value="12">12 per page</option>
+                    <option value="24">24 per page</option>
+                    <option value="36">36 per page</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="products-container">
+            <aside class="filters">
+                <div class="filter-section">
+                    <h2 class="filter-title">Categories</h2>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="roses">
+                            Roses
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="tulips">
+                            Tulips
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="lilies">
+                            Lilies
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="orchids">
+                            Orchids
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="sunflowers">
+                            Sunflowers
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2 class="filter-title">Price Range</h2>
+                    <div class="price-range">
+                        <input type="number" placeholder="Min Price" class="price-input">
+                        <input type="number" placeholder="Max Price" class="price-input">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2 class="filter-title">Occasion</h2>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="occasion" value="birthday">
+                            Birthday
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="occasion" value="wedding">
+                            Wedding
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="occasion" value="anniversary">
+                            Anniversary
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="occasion" value="sympathy">
+                            Sympathy
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <img src="Rose Bouquet.jpeg" alt="Red Roses Bouquet" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Red Roses Bouquet</h3>
+                        <p class="product-description">Beautiful arrangement of fresh red roses perfect for romantic occasions.</p>
+                        <p class="product-price">$49.99</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                    <span class="badge">New</span>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <img src="Orchid Special.jpeg" alt="Spring Tulips" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Spring Tulips</h3>
+                        <p class="product-description">Colorful tulips that bring the freshness of spring to your home.</p>
+                        <p class="product-price">$39.99</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <img src="Purple Orchids.jpeg" alt="Purple Orchids" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Purple Orchids</h3>
+                        <p class="product-description">Elegant purple orchids for a touch of sophistication.</p>
+                        <p class="product-price">$59.99</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <img src="Sunflower Bouquet.jpeg" alt="Sunflower Bouquet" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Sunflower Bouquet</h3>
+                        <p class="product-description">Bright and cheerful sunflowers to light up any room.</p>
+                        <p class="product-price">$44.99</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <img src="Pink Lilies.jpeg" alt="Pink Lilies" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Pink Lilies</h3>
+                        <p class="product-description">Fragrant pink lilies for a delicate and elegant arrangement.</p>
+                        <p class="product-price">$54.99</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <img src="Mixed Bouquet.jpeg" alt="Mixed Bouquet" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Mixed Bouquet</h3>
+                        <p class="product-description">A beautiful mix of seasonal flowers in vibrant colors.</p>
+                        <p class="product-price">$64.99</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
